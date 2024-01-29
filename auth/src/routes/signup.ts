@@ -2,14 +2,17 @@ import { Router, Request, Response } from "express";
 import { body } from "express-validator";
 import { RequestValidationError } from "../errors/request-validation-error";
 import { User } from "../models/user";
-import { validateResult } from "../middleware/validate-result";
+import { validateRequest } from "../middleware/validate-request";
 import jwt from "jsonwebtoken";
 const router = Router();
 
 router.post(
   "/api/users/signup",
-  [body("email").isEmail(), body("password").isLength({ min: 4, max: 12 })],
-  validateResult,
+  [
+    body("email").isEmail().withMessage("Email must be provided"),
+    body("password").isLength({ min: 4, max: 12 }),
+  ],
+  validateRequest,
   async (req: Request, res: Response) => {
     const { email, password } = req.body;
     const existingUser = await User.findOne({ email });

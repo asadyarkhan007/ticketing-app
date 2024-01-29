@@ -2,8 +2,9 @@ require("express-async-errors");
 import { Request, Response, NextFunction } from "express";
 import { CustomError } from "../errors/custom-error";
 import { URLNotFoundError } from "../errors/not-found-error";
+import { NotAuthorizedError } from "../errors/not-authorized-error";
 
-function prepareErrorResponseObject(error: CustomError) {
+function prepareErrorResponseObject(error: any) {
   return {
     timestamp: error.timestamp,
     message: error.message,
@@ -19,6 +20,8 @@ export const errorHandler = (
 ) => {
   if (error instanceof URLNotFoundError) {
     res.status(404).json(prepareErrorResponseObject(error));
+  } else if (error instanceof NotAuthorizedError) {
+    res.status(401).json(prepareErrorResponseObject(error));
   } else if (error instanceof CustomError) {
     res.status(400).json(prepareErrorResponseObject(error));
   } else {
