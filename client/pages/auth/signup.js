@@ -1,17 +1,23 @@
 import { useState } from "react";
-import axios from "axios";
+import useRequest from "../../hooks/use-request";
+import Router from "next/router";
 
 export default () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const onSubmit = async (event) => {
-    event.preventDefault();
-
-    const response = await axios.post("/api/users/signup", {
+  const { doRequest, errors } = useRequest({
+    url: "/api/users/signup",
+    method: "post",
+    body: {
       email,
       password,
-    });
-    console.log(response.data);
+    },
+    onSuccess: () => Router.push("/"),
+  });
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    doRequest();
   };
   return (
     <form onSubmit={onSubmit}>
@@ -33,6 +39,7 @@ export default () => {
           className="form-control"
         />
       </div>
+      {errors}
       <button className="btn btn-primary">Sign Up</button>
     </form>
   );
