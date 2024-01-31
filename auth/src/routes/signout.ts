@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { URLNotFoundError } from "../errors/not-found-error";
+import { URLNotFoundError } from "@asticketservice/common";
 
 const router = Router();
 router.post("/api/users/signout", (req: Request, res: Response) => {

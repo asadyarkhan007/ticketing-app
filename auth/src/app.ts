@@ -1,5 +1,5 @@
 import express from "express";
-import { errorHandler } from "./middleware/error-handlers";
+import { errorHandler } from "@asticketservice/common";
 import { signinRouter } from "./routes/signin";
 import { signupRouter } from "./routes/signup";
 import { currentUserRouter } from "./routes/current-users";

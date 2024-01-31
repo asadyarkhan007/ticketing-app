@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
-import { currentUser } from "../middleware/current-user";
-import { requireAuth } from "../middleware/require-auth";
+import { currentUser } from "@asticketservice/common";
+import { requireAuth } from "@asticketservice/common";
 const router = Router();
 router.get(
   "/api/users/currentuser",

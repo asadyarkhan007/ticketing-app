@@ -1,8 +1,10 @@
 import { Router, Request, Response } from "express";
 import { body } from "express-validator";
-import { RequestValidationError } from "../errors/request-validation-error";
+import {
+  RequestValidationError,
+  validateRequest,
+} from "@asticketservice/common";
 import { User } from "../models/user";
-import { validateRequest } from "../middleware/validate-request";
 import jwt from "jsonwebtoken";
 const router = Router();
 
