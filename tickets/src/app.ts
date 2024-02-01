@@ -1,6 +1,12 @@
 import express from "express";
-import { errorHandler } from "@asticketservice/common";
+import {
+  errorHandler,
+  URLNotFoundError,
+  currentUser,
+} from "@asticketservice/common";
 import cookieSession from "cookie-session";
+import { createTicketRouter } from "./routes/new";
+import { showTicketRouter } from "./routes/show";
 
 const app = express();
 app.set("trust proxy", true);
@@ -11,6 +17,13 @@ app.use(
     secure: process.env.NODE_ENV !== "test",
   })
 );
+app.use(currentUser);
+app.use(createTicketRouter);
+app.use(showTicketRouter);
+
+app.all("*", async (req, res) => {
+  throw new URLNotFoundError();
+});
 
 app.use(errorHandler);
 
