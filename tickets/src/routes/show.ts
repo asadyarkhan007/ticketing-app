@@ -1,15 +1,13 @@
 import express, { Request, Response } from "express";
 import { Ticket } from "../models/ticket";
-import { CustomError } from "@asticketservice/common";
+import { NotFoundError } from "@asticketservice/common";
 
 const router = express.Router();
 
-router.get("/api/tickets/:id", async (req, res) => {
-  const id = req.params.id;
-  const myArr: any[] = [];
-  const ticket = await Ticket.findById(id);
+router.get("/api/tickets/:id", async (req: Request, res: Response) => {
+  const ticket = await Ticket.findById(req.params.id);
   if (!ticket) {
-    throw new CustomError("Id Not found", myArr);
+    throw new NotFoundError();
   }
   res.status(200).send(ticket);
 });
