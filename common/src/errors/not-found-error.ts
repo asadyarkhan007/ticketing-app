@@ -1,11 +1,11 @@
 import { CustomError } from "./custom-error";
 
-export class URLNotFoundError extends CustomError {
-  private static readonly URL_NOT_FOUND: string = "URL not found";
+export class NotFoundError extends CustomError {
+  private static readonly RESOURCE_NOT_FOUND: string = "Resource not found";
   constructor() {
-    super(URLNotFoundError.URL_NOT_FOUND);
-    this.message = URLNotFoundError.URL_NOT_FOUND;
+    super(NotFoundError.RESOURCE_NOT_FOUND);
+    this.message = NotFoundError.RESOURCE_NOT_FOUND;
 
-    Object.setPrototypeOf(this, URLNotFoundError.prototype);
+    Object.setPrototypeOf(this, NotFoundError.prototype);
   }
 }
