@@ -30,11 +30,9 @@ class NatsWrapper {
       console.log(`error connecting to ${url}`);
     }
 
-    const nc = await connect();
-
     (async () => {
-      console.info(`connected ${nc.getServer()}`);
-      for await (const s of nc.status()) {
+      console.info(`connected ${this.client.getServer()}`);
+      for await (const s of this.client.status()) {
         if (s.type === Events.Disconnect) {
           console.log("Connectiong status closing");
         }

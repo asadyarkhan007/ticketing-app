@@ -5,8 +5,9 @@ const publishMessages = async () => {
     console.clear();
     const sc = StringCodec();
     const nc = await connect({ servers: "127.0.0.1:4222" });
-    const stream = "ticketing";
-    const subj = `product.*`;
+    const stream = "ticketing1";
+    const subj = "ticket:created";
+    const consumer = "ticket-service";
     const jsm = await nc.jetstreamManager();
     await jsm.streams.add({ name: stream, subjects: [subj] });
 
@@ -18,7 +19,7 @@ const publishMessages = async () => {
         title: "concert1",
         price: 100,
       });
-      let p = await js.publish("product.created", sc.encode(data));
+      let p = await js.publish(subj, sc.encode(data));
       console.log(
         `publish, sequence: ${p.seq} and isDuplicate:  ${p.duplicate}`
       );

@@ -1,11 +1,11 @@
 import {
-  Publisher,
   Subjects,
+  Publisher,
   TicketCreatedEvent,
 } from "@asticketservice/common";
 
 export class TicketCreatedPublisher extends Publisher<TicketCreatedEvent> {
   readonly subject: Subjects.TicketCreated = Subjects.TicketCreated;
-  readonly stream = "Ticketing";
+  readonly stream = "ticketing";
   readonly consumerName = "ticket-service";
 }

@@ -5,7 +5,7 @@ const createConsumer = async () => {
 
   const jsm = await nc.jetstreamManager();
   const stream = "ticketing";
-  const consumer = "productConsumer2";
+  const consumer = "ticket-service";
 
   // Check if the consumer already exists
   try {
@@ -25,8 +25,9 @@ const subscribeToMessages = async () => {
   // Ensure the consumer exists
   await createConsumer();
   const stream = "ticketing";
-  const subj = `product.*`;
-  const consumer = "productConsumer2";
+  const subj = "ticket:created";
+  const consumer = "ticket-service";
+
   const jsm = await nc.jetstreamManager();
   await jsm.streams.add({ name: stream, subjects: [subj] });
   const js = jsm.jetstream();

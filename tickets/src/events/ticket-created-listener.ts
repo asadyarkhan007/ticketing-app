@@ -7,7 +7,7 @@ import { JsMsg } from "nats";
 
 export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
   readonly subject: Subjects.TicketCreated = Subjects.TicketCreated;
-  readonly stream = "Ticketing";
+  readonly stream = "ticketing";
   readonly consumerName = "ticket-service";
 
   onMessage(data: TicketCreatedEvent["data"], msg: JsMsg) {
