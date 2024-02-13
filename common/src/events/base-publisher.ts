@@ -1,11 +1,4 @@
-import {
-  StringCodec,
-  JsMsg,
-  AckPolicy,
-  JetStreamManager,
-  DeliverPolicy,
-  PubAck,
-} from "nats";
+import { StringCodec, JsMsg, JetStreamManager, PubAck } from "nats";
 import { Subjects } from "./subjects";
 
 interface Event {

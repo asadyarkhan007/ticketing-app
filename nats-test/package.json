@@ -1,0 +1,25 @@
+{
+  "name": "nats-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "pub": "ts-node-dev --rs --notify false src/publisher.ts",
+    "lis": "ts-node-dev --rs --notify false src/listener.ts",
+    "jpub": "ts-node-dev --rs --notify false src/jetspublisher.ts",
+    "jlis": "ts-node-dev --rs --notify false src/jetslistener.ts",
+    "jlis2": "ts-node-dev --rs --notify false src/jetslistener2.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^20.11.16",
+    "nats": "^2.19.0",
+    "nats-test": "^1.0.0",
+    "ts-nats": "^1.2.15"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
