@@ -44,6 +44,10 @@ export abstract class Listener<T extends Event> {
     try {
       await this.jsm.consumers.info(this.stream, this.consumerName);
     } catch (err) {
+      await this.jsm.streams.add({
+        name: this.stream,
+        subjects: [this.subject],
+      });
       await this.jsm.consumers.add(this.stream, this.consumerConfig());
     }
 
