@@ -5,12 +5,15 @@ const createConsumer = async () => {
 
   const jsm = await nc.jetstreamManager();
   const stream = "ticketing";
+  const subj = "ticket:created";
   const consumer = "ticket-service";
 
   // Check if the consumer already exists
   try {
     await jsm.consumers.info(stream, consumer);
   } catch (err) {
+    //console.warn(err);
+    await jsm.streams.add({ name: stream, subjects: [subj] });
     await jsm.consumers.add(stream, {
       durable_name: consumer,
       ack_policy: AckPolicy.Explicit,
@@ -27,7 +30,6 @@ const subscribeToMessages = async () => {
   const stream = "ticketing";
   const subj = "ticket:created";
   const consumer = "ticket-service";
-
   const jsm = await nc.jetstreamManager();
   await jsm.streams.add({ name: stream, subjects: [subj] });
   const js = jsm.jetstream();
@@ -35,7 +37,9 @@ const subscribeToMessages = async () => {
   const c = await js.consumers.get(stream, consumer);
   const messages = await c.consume();
   for await (const m of messages) {
-    console.log(`sequence: ${m.seq} message: ${m.data}`);
+    console.log(
+      `Message received: ${subj} / ${consumer} sequence: ${m.seq} message: ${m.data}`
+    );
     m.ack();
   }
 
