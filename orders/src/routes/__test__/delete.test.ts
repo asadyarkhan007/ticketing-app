@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import { Ticket } from "../../models/ticket";
 import { Order } from "../../models/order";
 import { OrderStatus } from "@asticketservice/common";
-
+import { natsWrapper } from "../../nats-wrapper";
 const buildTicket = async () => {
   const ticket = Ticket.build({
     title: "concert",
@@ -44,4 +44,6 @@ it("delete order successfully", async () => {
     .expect(200);
 
   expect(order2.status).toEqual(OrderStatus.Cancelled);
+
+  expect(natsWrapper.jsm.jetstream().publish).toHaveBeenCalled();
 });

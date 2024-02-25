@@ -19,11 +19,12 @@ export const natsWrapper = {
           .fn()
           .mockImplementation(
             (
-              subjet: string,
-              data?: Payload,
+              subj: string,
+              payload?: Payload,
               options?: Partial<JetStreamPublishOptions>
             ): Promise<PubAck> => {
-              console.log("Publishing data:", data);
+              console.log("Publishing subject:", subj);
+              console.log("Publishing data:", payload);
               return Promise.resolve({} as PubAck);
             }
           ),

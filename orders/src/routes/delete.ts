@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import { natsWrapper } from "../nats-wrapper";
 import { Order } from "../models/order";
 import {
   NotAuthorizedError,
@@ -6,6 +7,7 @@ import {
   OrderStatus,
   requireAuth,
 } from "@asticketservice/common";
+import { OrderCancelledPublisher } from "../events/publishers/order-cancelled-publisher";
 
 const router = express.Router();
 
@@ -24,6 +26,14 @@ router.delete(
 
     order.status = OrderStatus.Cancelled;
     await order.save();
+
+    await new OrderCancelledPublisher(natsWrapper.jsm).publish({
+      id: order.id,
+      userId: order.userId,
+      ticket: {
+        id: order.ticket.id,
+      },
+    });
 
     res.status(204).send();
   }
