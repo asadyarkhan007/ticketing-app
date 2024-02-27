@@ -18,11 +18,12 @@ export abstract class Publisher<T extends Event> {
   streamConfig(): any {
     return {
       name: this.stream,
-      subjects: [this.subject],
+      subjects: [this.stream + ".*"],
     };
   }
 
   async publish(data: T["data"]): Promise<PubAck> {
+    console.log("Publishing");
     try {
       const streamExist = await this.jsm.streams.get(this.stream);
       if (!streamExist) {
@@ -33,7 +34,7 @@ export abstract class Publisher<T extends Event> {
     }
     const js = this.jsm.jetstream();
     //const sc = StringCodec();
-    console.log(`Publish subj ${this.subject}, body: ${JSON.stringify(data)}`);
+    console.log(`Publish data ${this.subject}, body: ${JSON.stringify(data)}`);
     return js.publish(this.subject, JSON.stringify(data));
   }
 }
