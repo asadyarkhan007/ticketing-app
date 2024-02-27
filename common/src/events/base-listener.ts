@@ -42,7 +42,7 @@ export abstract class Listener<T extends Event> {
 
   async listen() {
     console.log(
-      `Listening start for stream: ${this.stream} , subject: ${this.subject} , consumer: ${this.consumerName}`
+      `Listening start for stream: ${this.stream}, subject: ${this.subject}, consumer: ${this.consumerName}`
     );
     try {
       await this.jsm.consumers.info(this.stream, this.consumerName);
@@ -66,7 +66,7 @@ export abstract class Listener<T extends Event> {
     const messages = await consumer.consume();
     for await (const m of messages) {
       console.log(
-        `Message received: ${m.subject} / ${this.consumerName} sequence: ${m.seq} message: ${m.data}`
+        `Message received: ${m.subject} / ${this.consumerName}, sequence: ${m.seq}, message: ${m.data}`
       );
       const parsedData = this.parseMessage(m);
       if (this.subject == m.subject) {

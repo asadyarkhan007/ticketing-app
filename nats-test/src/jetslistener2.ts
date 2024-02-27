@@ -4,10 +4,9 @@ const createConsumer = async () => {
   const nc = await connect({ servers: "127.0.0.1:4222" });
 
   const jsm = await nc.jetstreamManager();
-  const stream = "ticketing46";
-  const consumer = "ticket-service";
-  const subj1 = "ticket:created3";
-  const subj2 = "ticket:updated1";
+  const stream = "ticket";
+  const consumer = "test-ticket-service";
+  const subj = "ticket.*";
 
   try {
     console.log(1);
@@ -24,7 +23,7 @@ const createConsumer = async () => {
         console.log(3);
         await jsm.streams.add({
           name: stream,
-          subjects: [subj1],
+          subjects: [subj],
         });
       }
     } catch (err) {
@@ -32,7 +31,7 @@ const createConsumer = async () => {
       console.log(4);
       await jsm.streams.add({
         name: stream,
-        subjects: [subj1],
+        subjects: [subj],
       });
     }
     console.log(5);
@@ -53,10 +52,10 @@ const subscribeToMessages = async () => {
   await createConsumer();
   //const subj2 = "ticket-updated";
   // await createConsumer(subj2);
-  return;
-  const stream = "ticketing";
-  const subj = "ticket:created";
-  const consumer = "ticket-service";
+
+  const stream = "ticket";
+  const subj = "ticket.*";
+  const consumer = "test-ticket-service";
   const jsm = await nc.jetstreamManager();
   await jsm.streams.add({ name: stream, subjects: [subj] });
   const js = jsm.jetstream();

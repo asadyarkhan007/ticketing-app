@@ -37,7 +37,7 @@ const start = async () => {
   process.on("SIGTERM", () => natsWrapper.client?.close());
 
   new TicketCreatedListener(natsWrapper.jsm).listen();
-  new TicketUpdatedListener(natsWrapper.jsm).listen();
+  // new TicketUpdatedListener(natsWrapper.jsm).listen();
 
   try {
     await mongoose.connect(process.env.MONGO_URI, {});
