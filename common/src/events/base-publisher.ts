@@ -33,6 +33,7 @@ export abstract class Publisher<T extends Event> {
     }
     const js = this.jsm.jetstream();
     //const sc = StringCodec();
+    console.log(`publish subj ${this.subject}, body: ${JSON.stringify(data)}`);
     return js.publish(this.subject, JSON.stringify(data));
   }
 }
