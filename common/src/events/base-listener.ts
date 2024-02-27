@@ -36,7 +36,7 @@ export abstract class Listener<T extends Event> {
   streamConfig() {
     return {
       name: this.stream,
-      subjects: [this.subject],
+      subjects: [this.stream + ".*"],
     };
   }
 
@@ -46,7 +46,7 @@ export abstract class Listener<T extends Event> {
     } catch (err) {
       try {
         const myStream = await this.jsm.streams.info(this.stream);
-        if (!myStream || myStream.config.name !== this.stream) {
+        if (!myStream) {
           await this.jsm.streams.add(this.streamConfig());
         }
       } catch (err) {
@@ -63,10 +63,12 @@ export abstract class Listener<T extends Event> {
     const messages = await consumer.consume();
     for await (const m of messages) {
       console.log(
-        `Message received: ${this.subject} / ${this.consumerName} sequence: ${m.seq} message: ${m.data}`
+        `Message received: ${m.subject} / ${this.consumerName} sequence: ${m.seq} message: ${m.data}`
       );
       const parsedData = this.parseMessage(m);
-      this.onMessage(parsedData, m);
+      if (this.subject == m.subject) {
+        this.onMessage(parsedData, m);
+      }
     }
   }
 
