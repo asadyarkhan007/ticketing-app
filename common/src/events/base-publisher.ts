@@ -23,7 +23,6 @@ export abstract class Publisher<T extends Event> {
   }
 
   async publish(data: T["data"]): Promise<PubAck> {
-    console.log("Publishing");
     try {
       const streamExist = await this.jsm.streams.get(this.stream);
       if (!streamExist) {
