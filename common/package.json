@@ -1,6 +1,6 @@
 {
   "name": "@asticketservice/common",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "",
   "publishConfig": {
     "access": "public"

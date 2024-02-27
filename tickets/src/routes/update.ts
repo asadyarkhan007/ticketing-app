@@ -8,8 +8,8 @@ import {
   requireAuth,
   validateRequest,
 } from "@asticketservice/common";
-import { TicketUpdatedPublisher } from "../events/ticket-updated-publisher";
-import { TicketCreatedListener } from "../events/ticket-created-listener";
+import { TicketUpdatedPublisher } from "../events/publisher/ticket-updated-publisher";
+import { TicketCreatedListener } from "../events/listeners/ticket-created-listener";
 
 const router = express.Router();
 

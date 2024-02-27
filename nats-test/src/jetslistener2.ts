@@ -4,21 +4,44 @@ const createConsumer = async () => {
   const nc = await connect({ servers: "127.0.0.1:4222" });
 
   const jsm = await nc.jetstreamManager();
-  const stream = "ticketing";
-  const subj = "ticket:created";
+  const stream = "ticketing46";
   const consumer = "ticket-service";
+  const subj1 = "ticket:created3";
+  const subj2 = "ticket:updated1";
 
-  // Check if the consumer already exists
   try {
+    console.log(1);
     await jsm.consumers.info(stream, consumer);
   } catch (err) {
-    //console.warn(err);
-    await jsm.streams.add({ name: stream, subjects: [subj] });
+    try {
+      console.log(2);
+
+      const myStream = await jsm.streams.info(stream);
+      console.log(2.2);
+      console.log(myStream.config.subjects);
+      console.log(myStream);
+      if (!myStream || myStream.config.name !== stream) {
+        console.log(3);
+        await jsm.streams.add({
+          name: stream,
+          subjects: [subj1],
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      console.log(4);
+      await jsm.streams.add({
+        name: stream,
+        subjects: [subj1],
+      });
+    }
+    console.log(5);
     await jsm.consumers.add(stream, {
       durable_name: consumer,
       ack_policy: AckPolicy.Explicit,
     });
   }
+  console.log(6);
 };
 
 const subscribeToMessages = async () => {
@@ -26,7 +49,11 @@ const subscribeToMessages = async () => {
   const nc = await connect({ servers: "127.0.0.1:4222" });
 
   // Ensure the consumer exists
+  //const subj1 = "ticket:created";
   await createConsumer();
+  //const subj2 = "ticket-updated";
+  // await createConsumer(subj2);
+  return;
   const stream = "ticketing";
   const subj = "ticket:created";
   const consumer = "ticket-service";

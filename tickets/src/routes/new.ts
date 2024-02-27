@@ -3,7 +3,7 @@ import { body } from "express-validator";
 import { requireAuth, validateRequest } from "@asticketservice/common";
 import { Ticket } from "../models/ticket";
 import { natsWrapper } from "../nats-wrapper";
-import { TicketCreatedPublisher } from "../events/ticket-created-publisher";
+import { TicketCreatedPublisher } from "../events/publisher/ticket-created-publisher";
 
 const router = express.Router();
 
