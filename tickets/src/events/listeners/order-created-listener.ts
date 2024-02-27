@@ -2,20 +2,19 @@ import {
   Subjects,
   Listener,
   TicketCreatedEvent,
+  OrderCreatedEvent,
 } from "@asticketservice/common";
 import { JsMsg } from "nats";
 
-export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
-  readonly subject: Subjects.TicketCreated = Subjects.TicketCreated;
+export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
+  readonly subject: Subjects.OrderCreated = Subjects.OrderCreated;
   readonly stream = "ticketing";
   readonly consumerName = "ticket-service";
 
-  onMessage(data: TicketCreatedEvent["data"], msg: JsMsg) {
+  onMessage(data: OrderCreatedEvent["data"], msg: JsMsg) {
     console.log("Event data!", data);
 
     console.log(data.id);
-    console.log(data.title);
-    console.log(data.price);
 
     msg.ack();
   }
