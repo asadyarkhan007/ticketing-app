@@ -9,7 +9,6 @@ import {
   validateRequest,
 } from "@asticketservice/common";
 import { TicketUpdatedPublisher } from "../events/publisher/ticket-updated-publisher";
-import { TicketCreatedListener } from "../events/listeners/order-created-listener";
 
 const router = express.Router();
 

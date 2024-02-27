@@ -6,6 +6,6 @@ import {
 
 export class OrderCreatedPublisher extends Publisher<OrderCreatedEvent> {
   readonly subject: Subjects.OrderCreated = Subjects.OrderCreated;
-  readonly stream = "ticketing";
+  readonly stream = "order";
   readonly consumerName = "order-service";
 }

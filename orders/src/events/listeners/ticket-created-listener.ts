@@ -8,7 +8,7 @@ import { Ticket } from "../../models/ticket";
 
 export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
   readonly subject: Subjects.TicketCreated = Subjects.TicketCreated;
-  readonly stream = "ticketing";
+  readonly stream = "order";
   readonly consumerName = "order-service";
 
   async onMessage(data: TicketCreatedEvent["data"], msg: JsMsg) {
