@@ -41,6 +41,7 @@ export abstract class Listener<T extends Event> {
   }
 
   async listen() {
+    console.log("listening start");
     try {
       await this.jsm.consumers.info(this.stream, this.consumerName);
     } catch (err) {
@@ -61,6 +62,8 @@ export abstract class Listener<T extends Event> {
       this.consumerName
     );
     const messages = await consumer.consume();
+    console.log("In listen got messages");
+
     for await (const m of messages) {
       console.log(
         `Message received: ${m.subject} / ${this.consumerName} sequence: ${m.seq} message: ${m.data}`
