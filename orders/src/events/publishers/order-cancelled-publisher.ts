@@ -8,5 +8,4 @@ import {
 export class OrderCancelledPublisher extends Publisher<OrderCancelledEvent> {
   readonly subject: Subjects.OrderCancelled = Subjects.OrderCancelled;
   readonly stream = "order";
-  readonly consumerName = "order-service";
 }
