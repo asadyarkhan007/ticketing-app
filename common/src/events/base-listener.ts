@@ -27,7 +27,7 @@ export abstract class Listener<T extends Event> {
   consumerConfig() {
     return {
       deliver_policy: DeliverPolicy.All,
-      ack_policy: AckPolicy.None,
+      ack_policy: AckPolicy.Explicit,
       ack_wait: this.ackWait,
       durable_name: this.consumerName,
     };
