@@ -18,7 +18,7 @@ export abstract class Listener<T extends Event> {
   abstract consumerName: string;
   abstract onMessage(data: T["data"], msg: JsMsg): void;
   private jsm: JetStreamManager;
-  protected ackWait = 5 * 1000;
+  protected ackWait = 5000000000; //5 seconds unit nano seconds
 
   constructor(jsm: JetStreamManager) {
     this.jsm = jsm;
@@ -70,8 +70,8 @@ export abstract class Listener<T extends Event> {
       );
       const parsedData = this.parseMessage(m);
       if (this.subject == m.subject) {
+        m.working();
         this.onMessage(parsedData, m);
-        m.ack();
       }
     }
   }
