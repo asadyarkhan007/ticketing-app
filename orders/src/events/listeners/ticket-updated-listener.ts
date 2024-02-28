@@ -13,6 +13,7 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
   readonly consumerName = "order-service";
 
   async onMessage(data: TicketCreatedEvent["data"], msg: JsMsg) {
+    console.log("updated listener called");
     const { id, title, price } = data;
 
     const ticket = await Ticket.findById(id);
