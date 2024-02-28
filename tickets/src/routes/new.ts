@@ -23,7 +23,7 @@ router.post(
       userId: req.currentUser!.id,
     });
     await ticket.save();
-
+    console.log("how mahy time called");
     await new TicketCreatedPublisher(natsWrapper.jsm).publish({
       id: ticket.id,
       title: ticket.title,

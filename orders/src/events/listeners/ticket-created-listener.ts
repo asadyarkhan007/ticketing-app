@@ -13,14 +13,16 @@ export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
 
   async onMessage(data: TicketCreatedEvent["data"], msg: JsMsg) {
     const { id, title, price } = data;
+    const ticketExist = await Ticket.findById(id);
+    if (!ticketExist) {
+      const ticket = Ticket.build({
+        id,
+        title,
+        price,
+      });
 
-    const ticket = Ticket.build({
-      id,
-      title,
-      price,
-    });
-
-    await ticket.save();
+      await ticket.save();
+    }
     msg.ack();
   }
 }
