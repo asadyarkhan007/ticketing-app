@@ -12,11 +12,13 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
   readonly stream = "ticket";
   readonly consumerName = "order-service";
 
-  async onMessage(data: TicketCreatedEvent["data"], msg: JsMsg) {
-    console.log("updated listener called");
-    const { id, title, price } = data;
+  async onMessage(data: TicketUpdatedEvent["data"], msg: JsMsg) {
+    const { id, title, price, version } = data;
 
-    const ticket = await Ticket.findById(id);
+    const ticket = await Ticket.findByEvent({
+      id,
+      version,
+    });
 
     if (!ticket) {
       throw new Error("Ticket not found");
