@@ -27,7 +27,7 @@ export abstract class Listener<T extends Event> {
   consumerConfig() {
     return {
       deliver_policy: DeliverPolicy.All,
-      ack_policy: AckPolicy.Explicit,
+      ack_policy: AckPolicy.None,
       ack_wait: this.ackWait,
       durable_name: this.consumerName,
     };
@@ -70,6 +70,7 @@ export abstract class Listener<T extends Event> {
       );
       const parsedData = this.parseMessage(m);
       if (this.subject == m.subject) {
+        m.working();
         this.onMessage(parsedData, m);
       }
     }
