@@ -68,9 +68,10 @@ export abstract class Listener<T extends Event> {
       console.log(
         `Message received: ${m.subject} / ${this.consumerName}, sequence: ${m.seq}, message: ${m.data}`
       );
-      const parsedData = this.parseMessage(m);
+
       if (this.subject == m.subject) {
         m.working();
+        const parsedData = this.parseMessage(m);
         this.onMessage(parsedData, m);
       }
     }
