@@ -17,7 +17,7 @@ export abstract class Listener<T extends Event> {
   abstract subject: T["subject"];
   abstract consumerName: string;
   abstract onMessage(data: T["data"], msg: JsMsg): void;
-  private jsm: JetStreamManager;
+  protected jsm: JetStreamManager;
   protected ackWait = 5000000000; //5 seconds unit nano seconds
 
   constructor(jsm: JetStreamManager) {

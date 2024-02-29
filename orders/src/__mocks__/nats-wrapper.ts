@@ -1,3 +1,4 @@
+import { Subjects } from "@asticketservice/common";
 import { PubAck, JetStreamPublishOptions, Payload } from "nats";
 export const natsWrapper = {
   jsm: {
@@ -19,7 +20,7 @@ export const natsWrapper = {
           .fn()
           .mockImplementation(
             (
-              subj: string,
+              subj: Subjects,
               payload?: Payload,
               options?: Partial<JetStreamPublishOptions>
             ): Promise<PubAck> => {
