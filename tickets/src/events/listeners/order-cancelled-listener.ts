@@ -4,23 +4,24 @@ import {
   TicketCreatedEvent,
   OrderCreatedEvent,
   NotFoundError,
+  OrderCancelledEvent,
 } from "@asticketservice/common";
 import { JsMsg } from "nats";
 import { Ticket } from "../../models/ticket";
 import { TicketUpdatedPublisher } from "../publisher/ticket-updated-publisher";
 
-export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
-  readonly subject: Subjects.OrderCreated = Subjects.OrderCreated;
+export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
+  readonly subject: Subjects.OrderCancelled = Subjects.OrderCancelled;
   readonly stream = "order";
   readonly consumerName = "ticket-service";
 
-  async onMessage(data: OrderCreatedEvent["data"], msg: JsMsg) {
+  async onMessage(data: OrderCancelledEvent["data"], msg: JsMsg) {
     const ticket = await Ticket.findById(data.ticket.id);
 
     if (!ticket) {
       throw new NotFoundError();
     }
-    ticket.set({ orderId: data.id });
+    ticket.set({ orderId: undefined });
     await ticket.save();
     await new TicketUpdatedPublisher(this.jsm).publish({
       id: ticket.id,

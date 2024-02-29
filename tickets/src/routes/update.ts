@@ -3,6 +3,7 @@ import { Ticket } from "../models/ticket";
 import { body } from "express-validator";
 import { natsWrapper } from "../nats-wrapper";
 import {
+  CustomError,
   NotAuthorizedError,
   NotFoundError,
   requireAuth,
@@ -25,6 +26,11 @@ router.put(
     if (!ticket) {
       throw new NotFoundError();
     }
+
+    if (ticket.orderId) {
+      throw new CustomError("Ticket is reserved, you can not edit");
+    }
+
     if (req.currentUser?.id !== ticket.userId) {
       throw new NotAuthorizedError();
     }

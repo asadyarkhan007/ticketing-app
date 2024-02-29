@@ -1,6 +1,7 @@
 import request from "supertest";
 import { app } from "../../app";
 import mongoose from "mongoose";
+import { cookie } from "express-validator";
 
 it("returns 404 if invalid id is provided", async () => {
   const id = new mongoose.Types.ObjectId().toHexString();
