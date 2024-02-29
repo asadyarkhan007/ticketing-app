@@ -9,7 +9,7 @@ interface Event {
 export abstract class Publisher<T extends Event> {
   abstract subject: T["subject"];
   abstract stream: string;
-  private jsm: JetStreamManager;
+  protected jsm: JetStreamManager;
 
   constructor(jsm: JetStreamManager) {
     this.jsm = jsm;
