@@ -36,6 +36,7 @@ const start = async () => {
   process.on("SIGTERM", () => natsWrapper.client?.close());
 
   await new OrderCreatedListener(natsWrapper.jsm).listen();
+
   await new OrderCancelledListener(natsWrapper.jsm).listen();
 
   try {
@@ -44,7 +45,7 @@ const start = async () => {
   } catch (err) {
     console.error(err);
   }
-  await app.listen(3000, () => {
+  app.listen(3000, () => {
     console.log("Ticket - Listening on 3000!");
   });
 };

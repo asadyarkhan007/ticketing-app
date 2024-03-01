@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
 import { app } from "./app";
 import { natsWrapper } from "./nats-wrapper";
-import { TicketCreatedListener } from "./events/listeners/ticket-created-listener";
-import { TicketUpdatedListener } from "./events/listeners/ticket-updated-listener";
-import { ExpirationCompleteListener } from "./events/listeners/expiration-complete-listeners";
+import { OrderCreatedListener } from "./events/listener/order-created-listener";
+import { OrderCancelledListener } from "./events/listener/order-cancelled-listener";
 
 const start = async () => {
   if (!process.env.JWT_KEY) {
@@ -37,9 +36,8 @@ const start = async () => {
   process.on("SIGINT", () => natsWrapper.client?.close());
   process.on("SIGTERM", () => natsWrapper.client?.close());
 
-  new TicketCreatedListener(natsWrapper.jsm).listen();
-  new TicketUpdatedListener(natsWrapper.jsm).listen();
-  new ExpirationCompleteListener(natsWrapper.jsm).listen();
+  new OrderCreatedListener(natsWrapper.jsm).listen();
+  new OrderCancelledListener(natsWrapper.jsm).listen();
 
   try {
     await mongoose.connect(process.env.MONGO_URI, {});
@@ -47,8 +45,8 @@ const start = async () => {
   } catch (err) {
     console.error(err);
   }
-  await app.listen(3000, () => {
-    console.log("Order - Listening on 3000!");
+  app.listen(3000, () => {
+    console.log("Payments - Listening on 3000!");
   });
 };
 
