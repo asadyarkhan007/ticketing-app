@@ -6,6 +6,7 @@ import {
   DeliverPolicy,
 } from "nats";
 import { Subjects } from "./subjects";
+import e from "express";
 
 interface Event {
   subject: Subjects;
@@ -73,6 +74,8 @@ export abstract class Listener<T extends Event> {
         m.working();
         const parsedData = this.parseMessage(m);
         this.onMessage(parsedData, m);
+      } else {
+        m.ack();
       }
     }
   }
