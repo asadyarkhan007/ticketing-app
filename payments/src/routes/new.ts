@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
+import { stripe } from "../stripe";
 import {
   CustomError,
   NotAuthorizedError,
@@ -32,8 +33,15 @@ router.post(
     if (order.status == OrderStatus.Cancelled) {
       throw new CustomError("Invalid Order Status");
     }
+    console.log(process.env.STRIPE_KEY);
 
-    res.status(200).send({ success: true });
+    await stripe.charges.create({
+      amount: order.price * 100,
+      currency: "usd",
+      source: token,
+    });
+
+    res.status(201).send({ success: true });
   }
 );
 

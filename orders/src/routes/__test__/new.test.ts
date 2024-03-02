@@ -6,6 +6,8 @@ import { Order } from "../../models/order";
 import { OrderStatus } from "@asticketservice/common";
 import { natsWrapper } from "../../nats-wrapper";
 
+jest.mock("../../nats-wrapper");
+
 it("returns error if ticket does not exist", async () => {
   const ticketId = new mongoose.Types.ObjectId();
   await request(app)
@@ -56,5 +58,5 @@ it("reserve a ticket", async () => {
       ticketId: ticket.id,
     })
     .expect(201);
-  // expect(natsWrapper.jsm.jetstream().publish).toHaveBeenCalled();
+  //expect(natsWrapper.jsm.jetstream().publish).toHaveBeenCalled();
 });
