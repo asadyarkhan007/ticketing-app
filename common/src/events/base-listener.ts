@@ -65,19 +65,21 @@ export abstract class Listener<T extends Event> {
       this.consumerName
     );
     const messages = await consumer.consume();
-    for await (const m of messages) {
-      console.log(
-        `Message received: ${m.subject} / ${this.consumerName}, sequence: ${m.seq}, message: ${m.data}`
-      );
+    (async () => {
+      for await (const m of messages) {
+        console.log(
+          `Message received: ${m.subject} / ${this.consumerName}, sequence: ${m.seq}, message: ${m.data}`
+        );
 
-      if (this.subject == m.subject) {
-        m.working();
-        const parsedData = this.parseMessage(m);
-        this.onMessage(parsedData, m);
-      } else {
-        m.ack();
+        if (this.subject == m.subject) {
+          m.working();
+          const parsedData = this.parseMessage(m);
+          this.onMessage(parsedData, m);
+        } else {
+          m.ack();
+        }
       }
-    }
+    })();
   }
 
   parseMessage(msg: JsMsg) {
