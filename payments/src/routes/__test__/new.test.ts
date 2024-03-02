@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { Order } from "../../models/order";
 import { OrderStatus } from "@asticketservice/common";
 import { stripe } from "../../stripe";
+import { Payment } from "../../models/payment";
 
 jest.mock("../../stripe");
 
@@ -61,8 +62,9 @@ it("retrn a 400 when order in cancelled status", async () => {
 
 it("retrn a 200 on successful payment", async () => {
   const userId: string = new mongoose.Types.ObjectId().toHexString();
+  const orderId = new mongoose.Types.ObjectId().toHexString();
   const order = Order.build({
-    id: new mongoose.Types.ObjectId().toHexString(),
+    id: orderId,
     userId: userId,
     version: 0,
     price: 20,
@@ -78,4 +80,7 @@ it("retrn a 200 on successful payment", async () => {
       orderId: order.id,
     })
     .expect(201);
+
+  const payment = await Payment.findOne({ orderId: orderId });
+  expect(payment?.stripeId).not.toBeNull();
 });
