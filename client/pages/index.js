@@ -8,23 +8,8 @@ const LandingPage = ({ currentUser }) => {
   );
 };
 
-LandingPage.getInitialProps = async (ctx) => {
-  try {
-    if (typeof window === "undefined") {
-      const { data } = await axios.get(
-        "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser",
-        {
-          headers: ctx.req.headers,
-        }
-      );
-      return data;
-    } else {
-      const { data } = await axios.get("/api/users/currentuser");
-      return data;
-    }
-  } catch (err) {
-    return { currentUser: null };
-  }
+LandingPage.getInitialProps = async (ctx, client, currentUser) => {
+  return {};
 };
 
 export default LandingPage;

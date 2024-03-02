@@ -1,38 +1,31 @@
 import "bootstrap/dist/css/bootstrap.css";
-import axios from "axios";
+import buildClient from "../api/build-client";
 import Header from "../components/header";
+
 const app = ({ Component, pageProps, currentUser }) => {
   return (
     <div>
       <Header currentUser={currentUser} />
-      <Component {...pageProps} />
+      <div className="container">
+        <Component currentUser={currentUser} {...pageProps} />
+      </div>
     </div>
   );
 };
 
 app.getInitialProps = async (appCtx) => {
-  let response;
-  try {
-    if (typeof window === "undefined") {
-      response = await axios.get(
-        "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser",
-        {
-          headers: appCtx.ctx.req.headers,
-        }
-      );
-    } else {
-      response = await axios.get("/api/users/currentuser");
-    }
-  } catch (err) {
-    response = { data: { currentUser: null } };
-  }
-
+  const client = buildClient(appCtx.ctx);
+  const { data } = await client.get("/api/users/currentuser");
   let pageProps = {};
   if (appCtx.Component.getInitialProps) {
-    pageProps = await appCtx.Component.getInitialProps(appCtx.ctx);
+    pageProps = await appCtx.Component.getInitialProps(
+      appCtx.ctx,
+      client,
+      data.currentUser
+    );
   }
 
-  return { pageProps, currentUser: response.data.currentUser };
+  return { pageProps, ...data };
 };
 
 export default app;
