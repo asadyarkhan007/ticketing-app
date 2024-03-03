@@ -68,7 +68,7 @@ export abstract class Listener<T extends Event> {
     (async () => {
       for await (const m of messages) {
         console.log(
-          `Message received: ${m.subject} / ${this.consumerName}, sequence: ${m.seq}, message: ${m.data}`
+          `Message received: ${this.subject} / ${m.subject} / ${this.consumerName}, sequence: ${m.seq}, message: ${m.data}`
         );
 
         if (this.subject == m.subject) {
