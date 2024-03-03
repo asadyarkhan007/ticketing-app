@@ -12,7 +12,7 @@ import { Order } from "../../models/order";
 export class PaymentCreatedListener extends Listener<PaymentCreatedEvent> {
   readonly subject: Subjects.PaymentCreated = Subjects.PaymentCreated;
   readonly stream = "payment";
-  readonly consumerName = "order-service";
+  readonly consumerName = "order-service-payment-created-consumer";
 
   async onMessage(data: PaymentCreatedEvent["data"], msg: JsMsg) {
     const { id, orderId, stripeId } = data;

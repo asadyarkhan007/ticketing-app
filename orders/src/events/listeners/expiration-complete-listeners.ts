@@ -15,11 +15,11 @@ import { natsWrapper } from "../../nats-wrapper";
 export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent> {
   readonly subject: Subjects.ExpirationComplete = Subjects.ExpirationComplete;
   readonly stream = "expiration";
-  readonly consumerName = "order-service";
+  readonly consumerName = "order-service-expiration-completed-consumer";
 
   async onMessage(data: ExpirationCompleteEvent["data"], msg: JsMsg) {
     console.log("expiration event received for order", data.orderId);
-    const order = await Order.findById(data.orderId);
+    const order = await Order.findById(data.orderId).populate("ticket");
     if (!order) {
       throw new NotFoundError();
     }

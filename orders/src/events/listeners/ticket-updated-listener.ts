@@ -10,7 +10,7 @@ import { Ticket } from "../../models/ticket";
 export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
   readonly subject: Subjects.TicketUpdated = Subjects.TicketUpdated;
   readonly stream = "ticket";
-  readonly consumerName = "order-service";
+  readonly consumerName = "order-service-ticket-updated-consumer";
 
   async onMessage(data: TicketUpdatedEvent["data"], msg: JsMsg) {
     const { id, title, price, version } = data;
