@@ -64,14 +64,15 @@ export abstract class Listener<T extends Event> {
       this.stream,
       this.consumerName
     );
+    const currentSubject = this.subject; // Capture this.subject before entering the loop
     const messages = await consumer.consume();
     (async () => {
       for await (const m of messages) {
         console.log(
-          `Message received: ${this.subject} / ${m.subject} / ${this.consumerName}, sequence: ${m.seq}, message: ${m.data}`
+          `Message received: ${currentSubject} / ${m.subject} / ${this.consumerName}, sequence: ${m.seq}, message: ${m.data}`
         );
 
-        if (this.subject == m.subject) {
+        if (currentSubject == m.subject) {
           m.working();
           const parsedData = this.parseMessage(m);
           this.onMessage(parsedData, m);
