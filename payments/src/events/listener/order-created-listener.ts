@@ -1,9 +1,4 @@
-import {
-  Listener,
-  OrderCreatedEvent,
-  OrderStatus,
-  Subjects,
-} from "@asticketservice/common";
+import { Listener, OrderCreatedEvent, Subjects } from "@asticketservice/common";
 import { JsMsg } from "nats";
 import { Order } from "../../models/order";
 
