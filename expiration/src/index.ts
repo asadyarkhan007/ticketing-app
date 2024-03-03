@@ -25,7 +25,7 @@ const start = async () => {
   process.on("SIGINT", () => natsWrapper.client?.close());
   process.on("SIGTERM", () => natsWrapper.client?.close());
 
-  await new OrderCreatedListener(natsWrapper.jsm).listen();
+  new OrderCreatedListener(natsWrapper.jsm).listen();
 
   console.log("Expiration - Listening on 3000!");
 };

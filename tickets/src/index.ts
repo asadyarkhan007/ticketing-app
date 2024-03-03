@@ -35,11 +35,11 @@ const start = async () => {
   process.on("SIGINT", () => natsWrapper.client?.close());
   process.on("SIGTERM", () => natsWrapper.client?.close());
   console.log("OrderCreatedListener listener creating");
-  await new OrderCreatedListener(natsWrapper.jsm).listen();
+  new OrderCreatedListener(natsWrapper.jsm).listen();
   console.log("OrderCreatedListener listener created");
 
   console.log("OrderCancelledListener listener creating");
-  await new OrderCancelledListener(natsWrapper.jsm).listen();
+  new OrderCancelledListener(natsWrapper.jsm).listen();
   console.log("OrderCancelledListener listener created");
 
   try {
