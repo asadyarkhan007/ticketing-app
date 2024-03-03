@@ -15,17 +15,21 @@ const app = ({ Component, pageProps, currentUser }) => {
 
 app.getInitialProps = async (appCtx) => {
   const client = buildClient(appCtx.ctx);
-  const { data } = await client.get("/api/users/currentuser");
   let pageProps = {};
-  if (appCtx.Component.getInitialProps) {
-    pageProps = await appCtx.Component.getInitialProps(
-      appCtx.ctx,
-      client,
-      data.currentUser
-    );
-  }
+  try {
+    const { data } = await client.get("/api/users/currentuser");
 
-  return { pageProps, ...data };
+    if (appCtx.Component.getInitialProps) {
+      pageProps = await appCtx.Component.getInitialProps(
+        appCtx.ctx,
+        client,
+        data.currentUser
+      );
+    }
+    return { pageProps, ...data };
+  } catch (err) {
+    return { pageProps };
+  }
 };
 
 export default app;
