@@ -8,6 +8,7 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
   readonly consumerName: string = "expiration-service";
 
   async onMessage(data: OrderCreatedEvent["data"], msg: JsMsg) {
+    console.log("Message recevied for expiration for order", data.id);
     const delay = new Date(data.expiresAt).getTime() - new Date().getTime();
 
     await expirationQueue.add(

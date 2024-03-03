@@ -18,6 +18,7 @@ export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent
   readonly consumerName = "order-service";
 
   async onMessage(data: ExpirationCompleteEvent["data"], msg: JsMsg) {
+    console.log("expiration event received for order", data.orderId);
     const order = await Order.findById(data.orderId);
     if (!order) {
       throw new NotFoundError();

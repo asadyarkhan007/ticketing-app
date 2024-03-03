@@ -6,7 +6,7 @@ interface Payload {
   orderId: string;
 }
 
-const expirationQueue = new Queue<Payload>("order:expiration", {
+const expirationQueue = new Queue<Payload>("order.expiration", {
   redis: {
     host: process.env.REDIS_HOST,
   },
@@ -14,10 +14,10 @@ const expirationQueue = new Queue<Payload>("order:expiration", {
 
 expirationQueue.process(async (job) => {
   console.log(
-    "I want to publish an expiration:complete event for orderId",
+    "I want to publish an expiration.complete event for orderId",
     job.data.orderId
   );
-  new ExpirationCompletePublisher(natsWrapper.jsm).publish({
+  await new ExpirationCompletePublisher(natsWrapper.jsm).publish({
     orderId: job.data.orderId,
   });
 });
