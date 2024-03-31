@@ -2,6 +2,8 @@ import { OrderCreatedListener } from "./events/listener/order-created-listener";
 import { natsWrapper } from "./nats-wrapper";
 
 const start = async () => {
+  console.log("Expiration starting up");
+
   if (!process.env.NATS_CLIENT_ID) {
     throw new Error("NATS_CLIENT_ID must be defined");
   }
