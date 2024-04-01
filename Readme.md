@@ -1,6 +1,6 @@
 # Ticketing App
 
-This repository contains a ticketing application that enables users to purchase tickets online and make payments. The application is built using React.js for the frontend, Node.js for the backend, and it follows a microservices architecture. MongoDB is used as the primary database for storage.
+This repository contains a ticketing application that enables users to purchase tickets online and make payments. The application is built using React.js for the frontend, Node.js for the backend, and it follows a microservices architecture. MongoDB is used as the primary database for storage and JetStream (Pub/Sub system) as a communicator between microservices.
 
 ## Setup
 
@@ -50,6 +50,7 @@ After setting up the secrets and the Ingress controller, you can run the Ticketi
    cd tickets && npm install && cd ..
    cd orders && npm install && cd ..
    cd client && npm install && cd ..
+   cd expirations && npm install && cd ..
    ```
 
 4. Run each service:
@@ -63,6 +64,9 @@ After setting up the secrets and the Ingress controller, you can run the Ticketi
 
    # Run Orders service
    cd orders && npm start
+
+   # Run Expiration service
+   cd expirations && npm start
 
    # Run Client (Frontend) service
    cd client && npm start
